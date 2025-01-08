@@ -4,7 +4,7 @@ pipeline {
     environment {
         // Define environment variables for image name and version
         DOCKER_IMAGE = 'testimg'
-        DOCKER_TAG = 'gp1'
+        DOCKER_TAG = 'latest'
         DOCKER_REGISTRY = 'docker.io'  // You can change this if using a private registry
         DOCKER_CREDS = 'docker'  // Jenkins credentials ID for Docker login
     }
