@@ -50,7 +50,7 @@ pipeline {
                     sshagent([EC2_SSH_CREDENTIALS]) {
                         // SSH into EC2 and run the Docker commands
                         bat """
-                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} "docker pull your-docker-image:latest && docker run -d -p 8080:80 your-docker-image:latest"
+                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} "docker pull testimg:latest && docker run -d -p 8080:80 your-docker-image:latest"
                         """
                     }
                 }
