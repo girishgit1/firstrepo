@@ -1,20 +1,11 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# Use the official Node.js image as a base
+FROM node:14
 
-# Set the working directory in the container
+# Copy the Node.js script into the container
+COPY hello_world.js /app/hello_world.js
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
-COPY . /app
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
-
-# Define environment variable to avoid Python buffering
-ENV PYTHONUNBUFFERED 1
-
-# Run app.py when the container launches
-CMD ["python", "app.py"]
+# Run the Node.js script when the container starts
+CMD ["node", "hello_world.js"]
