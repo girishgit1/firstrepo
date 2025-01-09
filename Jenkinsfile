@@ -7,7 +7,7 @@ pipeline {
         DOCKER_REGISTRY = 'docker.io'
         DOCKER_CREDS = 'docker'  // Jenkins credentials ID for Docker login
         EC2_SSH_CREDENTIALS = 'sshkey'  // Replace with the name you gave your credentials in Jenkins
-        EC2_INSTANCE_IP = '<34.219.0.193>'  // Replace with your EC2 instance's public IP
+        EC2_INSTANCE_IP = '34.219.0.193'  // Replace with your EC2 instance's public IP
     }
 
     stages {
@@ -41,7 +41,6 @@ pipeline {
                 }
             }
         }
-    }
 
         stage('Deploy to EC2') {
             steps {
@@ -49,17 +48,18 @@ pipeline {
                     // Use SSH credentials to access EC2 instance and run commands
                     sshagent([EC2_SSH_CREDENTIALS]) {
                         // SSH into EC2 and run the Docker commands
-                        bat """
-                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} "docker pull testimg:latest && docker run -d -p 8080:80 your-docker-image:latest"
+                        sh """
+                        ssh -o StrictHostKeyChecking=no ec2-user@${EC2_INSTANCE_IP} "docker pull ${DOCKER_IMAGE}:${DOCKER_TAG} && docker run -d -p 8080:80 ${DOCKER_IMAGE}:${DOCKER_TAG}"
                         """
                     }
                 }
             }
         }
+    }
 
     post {
         always {
-            bat 'docker system prune -f'
+            bat 'docker system prune -f'  // Clean up Docker system (optional)
         }
     }
 }
