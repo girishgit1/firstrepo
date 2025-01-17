@@ -1,3 +1,7 @@
-FROM ubuntu
-CMD [ "HELLO BRO" ]
-EXPOSE 8082
+From node:16-slim
+WORKDIR /app
+COPY package* json/app/
+RUN npm install
+COPY ./app
+EXPOSE 3000
+CMD [ "node","index.js"]
